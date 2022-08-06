@@ -1,0 +1,68 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>個人資料列表</title>
+<style>
+      input[type=submit]{
+      background-color: #2f4bbb;
+      border: 15px;
+      color: white;
+      padding: 15px;
+      text-decoration: none;
+      cursor: pointer;
+   }
+</style>
+</head>
+   <body>
+    <form method = "POST">
+      <p><input class="form-control" type="hidden" id="userid"  name = "userid"/></p>
+      <p><input type = "submit" value = "顯示" /></p>
+      <table border = 1>
+         <thead>
+            <td>暱稱</td>
+            <td>血型</td>
+            <td>出生年</td>
+            <td>性別</td>
+            <td>地區</td>
+            <td>備註</td>
+         </thead>
+
+         {% for record in dataclip %}
+            <tr>
+               <td>{{record["暱稱"]}}</td>
+               <td>{{record["血型"]}}</td>
+               <td>{{record["出生年"]}}</td>
+               <td>{{record['性別']}}</td>
+               <td>{{record['地區']}}</td>
+               <td>{{record['備註']}}</td>    
+            </tr>
+         {% endfor %}
+      </table>
+    </form>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+      <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+      <script>
+            liff.init({
+                     liffId: '1657366253-3YvQV5WL'
+                 })
+                 .then(() => {
+                  if (!liff.isLoggedIn()) {
+                     alert("用戶未登入");
+                     liff.login();
+                  } 
+                  else {
+                  liff.getProfile()
+                  .then(profile => {
+                     $("#userid").val(profile.userId);
+                     var userId = profile.userId
+                     })
+                     .catch((err) => {
+                     console.log('error', err);
+                     })
+                  }})
+                 .catch((err) => {
+                   console.log('初始化失敗')
+                 })
+     </script>
+   </body>
+</html>

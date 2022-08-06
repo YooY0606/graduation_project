@@ -1,0 +1,122 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>捐捐血</title>
+<style>
+   #h1 {text-align: center; font-size: 60px; }
+   #pictureUrl { display: block; margin: 0 auto }
+   #cpContainer{ background-color: black; color: white; text-align: center; font-size: 40px;}
+   input[type=text] {
+      width: 50%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 1px solid #555;
+      outline: none;
+   }
+   input[type=text]:focus {
+      background-color: lightblue;
+   }
+   input[type=date] {
+      margin: 20px;
+      padding: 15px;
+      height: 35px;
+      width: 500px;
+      font-size: 20px
+   }
+   input[type=hidden] {
+      margin: 20px;
+      padding: 15px;
+      height: 35px;
+      width: 500px;
+      font-size: 20px
+   }
+   select {
+      margin: 20px;
+      padding: 15px;
+      height: 35px;
+      width: 500px;
+      font-size: 20px;
+      box-sizing: border-box;
+      border: 1px solid #555;
+      outline: none;
+   
+   }
+   input[type=submit]{
+      background-color: #2f4bbb;
+      border: 15px;
+      width: 50px;
+      height: 50px;
+      color: white;
+      padding: 15px;
+      text-decoration: none;
+      cursor: pointer;
+   }
+</style>
+</head>
+   <body>
+      <div>
+         <div id="cpContainer">
+            <h1 id="h1">捐血紀錄</h1>
+            <form action = "{{ url_for('r_result') }}" method = "POST">
+               <p><input class="form-control" type="hidden" id="userid"  name = "userid"/> </p>
+               <p>捐血時間: <input value="2017-06-01" type = "date" name = "時間" /></p>
+               <p>捐血方式: 
+                  <select name = "捐血方式" >
+                     <option value="250cc全血">250cc全血</option>
+                     <option value="500cc全血">500cc全血</option>
+                     <option value="單倍分離術血小板">單倍分離術血小板</option>
+                     <option value="雙倍分離術血小板">雙倍分離術血小板</option>
+                  </select>
+               </p>
+               <p ><input type = "submit" value = "提交"/></p>
+            </form>
+         </div>
+      </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+      <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+      <script>
+            /*function runApp() {
+               liff.getProfile().then(profile => {
+                  document.getElementById("pictureUrl").src = profile.pictureUrl;
+                  //document.getElementById("userId") = profile.userId
+                  //document.getElementById("userId").innerHTML = '<b>UserId:</b> ' + profile.userId;
+                  $("#userid").val(profile.userId);
+                  //document.getElementById("displayName").innerHTML = '<b>DisplayName:</b> ' + profile.displayName;
+                  //document.getElementById("statusMessage").innerHTML = '<b>StatusMessage:</b> ' + profile.statusMessage;
+                  //document.getElementById("getDecodedIDToken").innerHTML = '<b>Email:</b> ' + liff.getDecodedIDToken().email;
+               }).catch(err => console.error(err));
+             }
+            liff.init({ liffId: "1656899274-nYGwwb27" }, () => {
+               if (liff.isLoggedIn()) {
+               runApp()
+               } else {
+               liff.login();
+               }
+            }, err => console.error(err.code, error.message));*/
+            liff.init({
+                     liffId: '1657366253-24N7XJlg'
+                 })
+                 .then(() => {
+                  if (!liff.isLoggedIn()) {
+                     alert("用戶未登入");
+                     liff.login();
+                  } 
+                  else {
+                  liff.getProfile()
+                  .then(profile => {
+                     alert("若未填寫個人資料請先新增個人資料！")
+                     $("#userid").val(profile.userId);
+                     $("#userphoto").val(profile.pictureUrl);
+                     const userId = profile.userId
+                     })
+                     .catch((err) => {
+                     console.log('error', err);
+                     })
+                  }})
+                 .catch((err) => {
+                   console.log('初始化失敗')
+                 })
+     </script>
+   </body>
+</html>
